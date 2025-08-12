@@ -201,22 +201,22 @@ These ASCII visuals provide deeper details on transfers, including DDS internals
                │ DDS DataWriter                                 │ DDS DataReader
                │                                                │
                │ 4. Discovery Phase:                            │
-               │    - Broadcast topic/QoS via RTPS             │
+               │    - Broadcast topic/QoS via RTPS              │
                │    - Wait for matching subscribers             │
                │ 5. QoS Validation:                             │
-               │    - Check Reliability (RELIABLE must match)  │
+               │    - Check Reliability (RELIABLE must match)   │
                │    - Check Durability (TL: store for late subs)│
                │    - Check History (KEEP_LAST: queue depth=10) │
-               │    - If mismatch: No connection! (e.g., REL vs. │
-               │      BEST_EFFORT fails for critical AMR data)   │
+               │    - If mismatch: No connection! (e.g., REL vs.│
+               │      BEST_EFFORT fails for critical AMR data)  │
                │                                                │
                ▼                                                │
      ┌─────────────────────────────────────────────────────────────┐
-     │ DDS Middleware (e.g., Cyclone DDS / Fast DDS)              │
-     │ - Internal: Create RTPS Packet (header + serialized data)  │
+     │ DDS Middleware (e.g., Cyclone DDS / Fast DDS)               │
+     │ - Internal: Create RTPS Packet (header + serialized data)   │
      │ - Transport: Send over UDP (for speed) or TCP (reliable)    │
-     │ - Reliability Handling: Send ACKs/NAKs, Retry lost packets   │
-     │ - Durability: Buffer last N msgs for new/late subscribers    │
+     │ - Reliability Handling: Send ACKs/NAKs, Retry lost packets  │
+     │ - Durability: Buffer last N msgs for new/late subscribers   │
      │ - Error Case: If deadline missed, trigger QoS event         │
      │ - AMR Opt: For sensors, switch to BEST_EFFORT + low depth   │
      └──────────────────────────────┬──────────────────────────────┘
@@ -250,12 +250,12 @@ These ASCII visuals provide deeper details on transfers, including DDS internals
                │                                                │
                ▼                                                │
      ┌─────────────────────────────────────────────────────────────┐
-     │ DDS Middleware                                             │
+     │ DDS Middleware                                              │
      │ - Serialize Req into RTPS Packet (with seq num for ordering)│
      │ - Transport: Send Req over UDP/TCP (RELIABLE: wait for ACK) │
      │ - Timeout Handling: If no response, retry or error          │
      │ - AMR Opt: Use deadlines for time-critical queries (e.g.,   │
-     │   battery check must respond in <1s)                       │
+     │   battery check must respond in <1s)                        │
      └──────────────────────────────┬──────────────────────────────┘
                                     │ 5. Deserialize Req
                                     │ 6. App: Process (e.g., trigger action)
@@ -264,7 +264,8 @@ These ASCII visuals provide deeper details on transfers, including DDS internals
                                     │ 9. Send back via RTPS (with ACKs)
                                     │
                                     ▼
-               │ 10. Deserialize Response                      │
+               ┌────────────────────────────────────────────────┐
+               │ 10. Deserialize Response                       │
                │ 11. App: Handle (e.g., log success)            │
                └────────────────────────────────────────────────┘
 ```
